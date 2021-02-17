@@ -5,7 +5,7 @@
 
 - name: Ensure docker and python3-pip install
   apt:
-    name: { { item } }
+    name: "{{ item }}"
     state: present
   with_items:
     - docker.io
@@ -13,7 +13,7 @@
 
 - name: Ensure Docker SDK for Python and PyYAML is install
   pip:
-    name: { { item } }
+    name: "{{ item }}"
     state: present
   with_items:
     - docker
