@@ -1,8 +1,13 @@
 ---
-- name: app config
-  hosts: all
+- name: app build
+  hosts: build
   become: yes
 
   roles:
     - app_build
+
+- name: app run
+  hosts: run_docker
+  become: yes
+  roles:
     - app_run
