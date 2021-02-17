@@ -1,0 +1,8 @@
+---
+- name: app config
+  hosts: all
+  become: yes
+
+  roles:
+    - app_build
+    - app_run

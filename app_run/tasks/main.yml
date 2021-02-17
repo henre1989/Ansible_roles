@@ -1,0 +1,27 @@
+---
+- name: update repository
+  apt:
+    update_cache: yes
+
+- name: Ensure docker and python3-pip install
+  apt:
+    name: { { item } }
+    state: present
+  with_items:
+    - docker.io
+    - python3-pip
+
+- name: Ensure Docker SDK for Python and PyYAML is install
+  pip:
+    name: { { item } }
+    state: present
+  with_items:
+    - docker
+    - PyYAML
+
+- name: Ensure docker container is run
+      docker_container:
+       name: java_app
+       image: henre1989/java_app:v1
+       published_ports: 8080:8080
+       state: started

@@ -1,0 +1,40 @@
+---
+- name: update repository
+  apt:
+   update_cache: yes
+
+- name: Ensure docker and python3-pip install
+  apt:
+    name: {{ item }}
+    state: present
+  with_items:
+    - docker.io
+    - python3-pip
+
+- name: Ensure Dockerfile is clone
+  git:
+   repo: https://github.com/henre1989/Dockerfile_java_app.git
+   dest: /home/server1/Dockerfile_java_app
+
+- name: Ensure Docker SDK for Python and PyYAML is install
+  pip:
+   name: {{ item }}
+   state: present
+  with_items:
+    - docker
+    - PyYAML
+
+- name: Log into DockerHub
+  docker_login:
+   username: henre1989
+   password: "{{ pass_dockerhub }}"
+   state: present
+
+- name: Ensure build docker image und push to dockerhub
+  docker_image:
+   build:
+    path: /home/server1//Dockerfile_java_app
+   name: henre1989/java_app
+   tag: v1
+   push: yes
+   source: build
